@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= imovel.nome_imovel %></title>
+    <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+    <h1><%= imovel.nome_imovel %></h1>
+    <img src="/imagem-imovel/<%= imovel.id_imovel %>" alt="<%= imovel.nome_imovel %>" style="max-width: 400px;">
+    <p>Descrição: <%= imovel.descricao %></p>
+    <p>Valor: R$ <%= imovel.valor.toFixed(2) %></p>
+    <p>CEP: <%= imovel.cep %></p>
+    <p>Categoria: <%= imovel.categoria %></p>
+    <p>Quartos: <%= imovel.quartos || 'Não informado' %></p>
+    <p>Banheiros: <%= imovel.banheiros || 'Não informado' %></p>
+    <p>Andares: <%= imovel.andares || 'Não informado' %></p>
+    
+    <a href="/listar-imoveis">Voltar para a lista de imóveis</a>
+</body>
+</html>

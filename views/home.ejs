@@ -1,0 +1,62 @@
+<!-- views/home.ejs -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+</head>
+<body>
+    <h1>Bem-vindo à Página Inicial</h1>
+    <% if (usuario) { %>
+        <p>Olá, <%= usuario.nome %>!</p>
+        <% if (usuario.nome === "fernandogames") { %>
+            <form action="/editar" method="get">
+                <button type="submit">Editar Usuarios</button>
+            </form>
+            <form action="/denuncia" method="get">
+                <button type="submit">Veja denuncias</button>
+            </form>
+        <% } %>
+        <form action="/criar-imovel" method="get">
+            <button id="criar-imovel">Criar Imóvel</button>
+        </form>
+        <form action="/report" method="get">
+            <button id="report">Denunciar</button>
+        </form>
+        <form action="/logout" method="get">
+            <button type="submit">Logout</button>
+        </form>
+        <form action="/listar-imoveis" method="get">
+            <button id="lista-imovel">Imóveis</button>
+        </form>
+        <button id="toggle2fa">Ativar/Desativar 2FA</button>
+        <script>
+        document.getElementById('toggle2fa').addEventListener('click', async () => {
+            try {
+                const response = await fetch('/toggle-2fa', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+                const data = await response.json();
+                if (data.success) {
+                    alert(data.duasEtapasAtivado ? '2FA ativado com sucesso!' : '2FA desativado com sucesso!');
+                } else {
+                    console.error('Erro ao alternar 2FA:', data.error);
+                    alert('Erro ao alternar 2FA: ' + (data.error || 'Erro desconhecido'));
+                }
+            } catch (error) {
+                console.error('Erro ao fazer a requisição:', error);
+                alert('Erro ao tentar alternar 2FA: ' + error.message);
+            }
+        });
+        </script>
+    <% } else { %>
+        <p>Faça login para acessar todas as funcionalidades.</p>
+        <button onclick="window.location.href='/login'">Login</button>
+        <button onclick="window.location.href='/cadastro'">Cadastrar</button>
+    <% } %>
+</body>
+</html>

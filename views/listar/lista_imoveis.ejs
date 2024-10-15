@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Imóveis</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+    <style>
+        #map { height: 400px; width: 100%; }
+        #imoveis-list { margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div id="map" class="map"></div>
+    <div id="imoveis-list"></div>
+
+    <form action="/">
+        <button type="submit">Voltar</button>
+    </form>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Spawna o mapa
+        const map = L.map('map').setView([-28.6919, -49.3919], 10);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Buscar e exibe os imóveis
+        fetch('/lista-imovel')
+            .then(response => response.json())
+            .then(data => {
+                console.log('Dados recebidos:', data);
+                const imoveisList = document.getElementById('imoveis-list');
+                data.forEach(imovel => {
+                    // Adiciona marcador ao mapa
+                    if (imovel.latitude && imovel.longitude) {
+                        const popupContent = `
+                            <div>
+                                <h3><a href="/imovel/${imovel.id_imovel}">${imovel.nome_imovel}</a></h3>
+                                <img src="${imovel.imagemUrl}" alt="${imovel.nome_imovel}" style="max-width: 150px; max-height: 150px;">
+                                <p>CEP: ${imovel.cep}</p>
+                            </div>
+                        `;
+                        L.marker([imovel.latitude, imovel.longitude])
+                            .addTo(map)
+                            .bindPopup(popupContent);
+                    }
+
+                    // Adiciona imóvel para a lista
+                    const imovelElement = document.createElement('div');
+                    imovelElement.innerHTML = `
+                        <h3><a href="/imovel/${imovel.id_imovel}">${imovel.nome_imovel}</a></h3>
+                        <p>CEP: ${imovel.cep}</p>
+                        <img src="${imovel.imagemUrl}" alt="${imovel.nome_imovel}" style="max-width: 200px;">
+                    `;
+                    imoveisList.appendChild(imovelElement);
+                });
+            })
+            .catch(error => console.error('Erro ao buscar imóveis:', error));
+    });
+    </script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes da Denúncia</title>
+</head>
+<body>
+    <h1>Detalhes da Denúncia</h1>
+
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <td><%= denuncia.id %></td>
+        </tr>
+        <tr>
+            <th>Descrição</th>
+            <td><%= denuncia.descricao %></td>
+        </tr>
+        <tr>
+            <th>Categoria</th>
+            <td><%= denuncia.categoria %></td>
+        </tr>
+        <tr>
+            <th>E-mail do Usuário</th>
+            <td><%= denuncia.usuario_email %></td>
+        </tr>
+        <tr>
+            <th>Data da Denúncia</th>
+            <td><%= denuncia.datadenuncia.toISOString().split('T')[0] %></td>
+        </tr>
+        <tr>
+            <th>ID do Imóvel</th>
+            <td><%= denuncia.fk_id_imovel || 'N/A' %></td>
+        </tr>
+    </table>
+
+    <a href="/denuncia">Voltar para a lista de denúncias</a>
+</body>
+</html>

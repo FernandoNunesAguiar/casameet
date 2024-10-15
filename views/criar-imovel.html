@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar Imóvel</title>
+</head>
+<body>
+    <center>
+    <form action="/imovelcriado" method="POST" enctype="multipart/form-data">
+        <label for="NomeImovel">Nome do Imóvel</label>
+        <input type="text" id="NomeImovel" name="NomeImovel" required>
+
+        <label for="Descricao">Descrição</label>
+        <textarea id="Descricao" name="Descricao" required></textarea>
+
+        <label for="Preco">Preço</label>
+        <input type="number" id="Preco" name="Preco" required>
+
+        <label for="CEP">CEP</label>
+        <input type="text" id="CEP" name="CEP" pattern="\d{8}" required>
+
+        <label for="Categoria">Categoria</label>
+        <select name="Categoria" id="Categoria" required>
+            <option value="casadepraia">Casa de Praia</option>
+            <option value="apartamento">Apartamento</option>
+            <option value="terreno">Terreno</option>
+            <option value="casa">Casa</option>
+            <option value="kitnet">Kitnet</option>
+            <option value="armazem">Armazém</option>
+            <option value="comercial">Comercial</option>
+        </select>
+
+        <label for="Imagem">Imagem</label>
+        <input type="file" id="Imagem" name="Imagem" accept="image/*">
+
+        <button type="submit">Criar Imóvel</button>
+    </form>
+    </center>
+    <button onclick="window.location.href='/'" type="button">Voltar</button>
+</body>
+</html>

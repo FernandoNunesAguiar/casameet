@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enviar Denúncia</title>
+</head>
+<body>
+    <h1>Enviar Denúncia</h1>
+
+    <% if (typeof success !== 'undefined' && success) { %>
+        <p style="color: green;">Denúncia enviada com sucesso!</p>
+    <% } %>
+
+    <% if (typeof error !== 'undefined' && error) { %>
+        <p style="color: red;">Erro ao enviar denúncia. Por favor, tente novamente.</p>
+    <% } %>
+
+    <form action="/report" method="POST">
+        <label for="descricao">Descrição da denúncia:</label><br>
+        <textarea id="descricao" name="descricao" rows="4" cols="50" required></textarea><br><br>
+
+        <label for="categoria">Categoria:</label><br>
+        <select id="categoria" name="categoria" required>
+            <option value="fraude">Fraude</option>
+            <option value="linguagem ofensiva">Linguagem ofensiva</option>
+            <option value="discriminação">Discriminação</option>
+            <option value="outros">Outros</option>
+        </select><br><br>
+
+        <label for="id_imovel">ID do Imóvel:</label><br>
+        <input type="number" id="id_imovel" name="id_imovel"><br><br>
+
+        <input type="submit" value="Enviar Denúncia">
+    </form>
+</body>
+</html>

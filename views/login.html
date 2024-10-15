@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body>
+<center>
+<h1>LOGIN</h1>
+<form id="loginForm">
+    <input type="email" name="loginemail" placeholder="Email" required>
+    <input type="password" name="loginsenha" placeholder="Senha" required>
+    <div id="twoFactorField" style="display: none;">
+        <input type="text" name="twoFactorCode" placeholder="Código 2FA">
+    </div>
+    <button type="submit">Entrar</button>
+</form>
+</center>
+<button onclick="window.location.href='/'" type="button">Voltar</button>
+<script>
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const loginData = Object.fromEntries(formData);
+        
+        try {
+            const response = await fetch('/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(loginData)
+            });
+            
+            const data = await response.json();
+            
+            if (response.ok) {
+                if (data.requireTwoFactor) {
+                    alert(data.message);
+                    document.getElementById('twoFactorField').style.display = 'block';
+                } else if (data.success) {
+                    alert('Login bem-sucedido!');
+                    window.location.href = '/';
+                } else {
+                    alert(data.error || 'Erro no login');
+                }
+            } else {
+                alert(data.error || 'Erro no login');
+            }
+        } catch (error) {
+            console.error('Erro:', error);
+            alert('Erro ao tentar fazer login');
+        }
+    });
+</script>
+</body>
+</html>

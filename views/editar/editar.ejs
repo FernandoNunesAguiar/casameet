@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciar Dados</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        h2 {
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Gerenciar Dados</h1>
+    
+    <h2>Buscar Usuário</h2>
+    <input type="text" id="usuarioInput" placeholder="Digite o nome de usuário">
+    <button onclick="buscarUsuario()">Buscar Usuário</button>
+    
+    <div id="usuarioInfo"></div>
+
+    <h2>Buscar Imóvel</h2>
+    <input type="number" id="imovelInput" placeholder="Digite o ID do imóvel">
+    <button onclick="buscarImovel()">Buscar Imóvel</button>
+    
+    <div id="imovelInfo"></div>
+
+    <script>
+        function buscarUsuario() {
+            const usuario_usuario = document.getElementById('usuarioInput').value;
+            fetch('/buscar-usuario', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ usuario_usuario })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    document.getElementById('usuarioInfo').innerHTML = `<p>${data.error}</p>`;
+                } else {
+                    let html = `<h3>Dados do Usuário</h3>
+                        <p>ID: ${data.usuario.id}</p>
+                        <p>Email: ${data.usuario.email}</p>
+                        <p>Classificação: ${data.usuario.classficacao || 'Não definida'}</p>
+                        <p>Usuário: ${data.usuario.usuario_usuario}</p>`;
+            
+                    if (data.dadosAdicionais) {
+                        html += `<h3>Dados Adicionais</h3>`;
+                        for (const [key, value] of Object.entries(data.dadosAdicionais)) {
+                            if (key !== 'tipo' && key !== 'fk_id_usuario') {
+                                html += `<p>${key}: ${value}</p>`;
+                            }
+                        }
+                    }
+            
+                    document.getElementById('usuarioInfo').innerHTML = html;
+                }
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                document.getElementById('usuarioInfo').innerHTML = '<p>Erro ao buscar usuário</p>';
+            });
+        }
+
+        function buscarImovel() {
+            const id_imovel = document.getElementById('imovelInput').value;
+            fetch('/buscar-imovel', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id_imovel })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    document.getElementById('imovelInfo').innerHTML = `<p>${data.error}</p>`;
+                } else {
+                    let html = `<h3>Dados do Imóvel</h3>`;
+                    for (const [key, value] of Object.entries(data)) {
+                        html += `<p>${key}: ${value}</p>`;
+                    }
+                    document.getElementById('imovelInfo').innerHTML = html;
+                }
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                document.getElementById('imovelInfo').innerHTML = '<p>Erro ao buscar imóvel</p>';
+            });
+        }
+    </script>
+</body>
+</html>

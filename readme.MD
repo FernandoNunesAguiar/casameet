@@ -1,4 +1,4 @@
-# CasaMeet
+# CasaMeet 🏠 
 
 Este projeto é um sistema web de anúncio de imóveis criado por mim, Fernando Nunes de Aguiar e Gustavo Scarabelot dos Santos para ser apresentado como nosso Trabalho de Conclusão de Curso (TCC) no Cedup Abílio Paulo. O sistema inclui funcionalidades como:
 

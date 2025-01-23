@@ -62,5 +62,5 @@ Este projeto é um sistema web de anúncio de imóveis criado por mim, Fernando 
 Agora o projeto estará rodando e pronto para uso!
 
 ---
-Se encontrar qualquer problema durante a configuração, verifique os logs de erro ou entre em contato com o mantenedor do projeto.
+Se encontrar qualquer problema durante a configuração, verifique os logs de erro ou entre em contato comigo
 
